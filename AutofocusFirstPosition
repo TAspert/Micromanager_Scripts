@@ -7,36 +7,38 @@ import org.micromanager.StagePosition;
 import ij.IJ;
 
 runnable= new Runnable(){
-	xyStage = mmc.getXYStageDevice();
-	zStageFocus = mmc.getFocusDevice();
+	public void run(){
+		xyStage = mmc.getXYStageDevice();
+		zStageFocus = mmc.getFocusDevice();
 
-	posList = mm.positions().getPositionList();
-	list = posList.getPositions();
-	
-	// Go to pos 0 (should already be the case)
-	pos0 = posList.getPosition(0);
-	pos0.goToPosition(pos, mmc);
+		posList = mm.positions().getPositionList();
+		list = posList.getPositions();
 
-	// Record the position before autofocus
-	zpos=mmc.getPosition();
-	
-	//Autocofus
-	AfM=mm.getAutofocusManager();
-	AfMM=AfM.getAutofocusMethod();
-	AfMM.fullFocus();
-	
-	//Compute the z-offset
-	offset=mmc.getPosition()-zpos;
-	IJ.log("Offset is "+ offset);
+		// Go to pos 0 (should already be the case)
+		pos0 = posList.getPosition(0);
+		pos0.goToPosition(pos, mmc);
 
-	//Apply the z-offset to the positions of the list
-	for (msp : list) {
-		sp = msp.get(zStageFocus);
-		sp.set1DPosition(zStageFocus, sp.get1DPosition() + offset);
-	}
-	posList.setPositions(list);
-	mm.positions().setPositionList(posList);
-	IJ.log("Offset applied to all positions ");
+		// Record the position before autofocus
+		zpos=mmc.getPosition();
+
+		//Autocofus
+		AfM=mm.getAutofocusManager();
+		AfMM=AfM.getAutofocusMethod();
+		AfMM.fullFocus();
+
+		//Compute the z-offset
+		offset=mmc.getPosition()-zpos;
+		IJ.log("Offset is "+ offset);
+
+		//Apply the z-offset to the positions of the list
+		for (msp : list) {
+			sp = msp.get(zStageFocus);
+			sp.set1DPosition(zStageFocus, sp.get1DPosition() + offset);
+		}
+		posList.setPositions(list);
+		mm.positions().setPositionList(posList);
+		IJ.log("Offset applied to all positions ");
+	};
 };
 
 mm.acquisitions().clearRunnables();
