@@ -14,7 +14,7 @@ runnable= new Runnable(){
 
 		// Go to pos 0 (should already be the case)
 		pos0 = posList.getPosition(0);
-		pos0.goToPosition(pos, mmc);
+		pos0.goToPosition(pos0, mmc);
 
 		// Record the position before autofocus
 		zpos=mmc.getPosition();
