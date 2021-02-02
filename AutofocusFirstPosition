@@ -9,7 +9,7 @@ runnable= new Runnable(){
 		xyStage = mmc.getXYStageDevice();
 		zStageFocus = mmc.getFocusDevice();
 
-		posList = mm.positions().getPositionList();
+		posList = mm.uiManager().getPositionList();
 		list = posList.getPositions();
 
 		// Go to pos 0 (should already be the case)
