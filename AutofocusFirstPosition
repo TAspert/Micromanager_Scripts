@@ -23,7 +23,7 @@ runnable= new Runnable(){
 		AfM=mm.getAutofocusManager();
 		AfMM=AfM.getAutofocusMethod();
 		AfMM.fullFocus();
-
+		mmc.sleep(1000); //wait the ZStage to reposition to computed Z.
 		//Compute the z-offset
 		offset=mmc.getPosition()-zpos;
 		IJ.log("Offset is "+ offset);
